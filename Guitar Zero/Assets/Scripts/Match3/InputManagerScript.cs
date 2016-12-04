@@ -20,6 +20,8 @@ public class InputManagerScript : MonoBehaviour {
 	}
 		
 	public virtual void SelectToken(){
+
+		//handle mouse input
 		if(Input.GetMouseButtonDown(0)){
 			Debug.Log("Attempt to select detected; Input.mousePosition == " + Input.mousePosition);
 			//when you click, check where on the screen you're clicking
@@ -53,6 +55,37 @@ public class InputManagerScript : MonoBehaviour {
 			}
 		}
 
+		//handle touch input
+		foreach (Touch touch in Input.touches){
+			if (touch.phase == TouchPhase.Began){
+				Vector3 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
+
+				Collider2D collider = Physics2D.OverlapPoint(touchPos);
+
+				if(collider != null){
+					//if you click on something...
+					if(selected == null){
+						//if we haven't yet selected a token, select this token and remember it
+						selected = collider.gameObject;
+						selectionIcon.transform.position = collider.transform.position;
+					} else {
+						//if we HAVE already selected a token, calculate the distance between this token (which we're currently clicking on)
+						//and that one (which we clicked on last time)
+						Vector2 pos1 = gameManager.GetPositionOfTokenInGrid(selected);
+						Vector2 pos2 = gameManager.GetPositionOfTokenInGrid(collider.gameObject);
+
+						//if they're next to each other, swap them
+						if(Mathf.Abs(pos1.x - pos2.x) + Mathf.Abs(pos1.y - pos2.y) == 1){
+							Debug.Log("trying to swap");
+							moveManager.SetupTokenExchange(selected, pos1, collider.gameObject, pos2, true);
+						}
+						//then deselect our current token (because we're about to destroy or forget it)
+						selected = null;
+						selectionIcon.transform.position = offScreen;
+					}
+				}
+			}
+		}
 	}
 
 	/// <summary>
