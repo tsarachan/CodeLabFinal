@@ -1,14 +1,19 @@
-﻿using UnityEngine;
+﻿/*
+ * 
+ * This script handles input, both mouse clicks and touches. It is not responsible for the results of input; it simply calls other functions.
+ * 
+ */
+
+using UnityEngine;
 using System.Collections;
 
 public class InputManagerScript : MonoBehaviour {
 
-	//this script tracks player inputs and makes changes to the game
 
 	protected GameManagerScript gameManager;
 	protected MoveTokensScript moveManager;
 
-	//selected is a variable which tracks which token (if any) we've currently selected
+	//track the currently selected token, both for internal logic and with a visible icon
 	protected GameObject selected = null;
 	protected GameObject selectionIcon;
 	public Vector3 offScreen = new Vector3(100.0f, 100.0f, 100.0f);
@@ -22,8 +27,8 @@ public class InputManagerScript : MonoBehaviour {
 	public virtual void SelectToken(){
 
 		//handle mouse input
+		//this must be commented out for iOS builds, or touches will be detected as left-clicks
 		if(Input.GetMouseButtonDown(0)){
-			Debug.Log("Attempt to select detected; Input.mousePosition == " + Input.mousePosition);
 			//when you click, check where on the screen you're clicking
 			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			Debug.Log("mousePos == " + mousePos);
@@ -58,19 +63,24 @@ public class InputManagerScript : MonoBehaviour {
 		//handle touch input
 		foreach (Touch touch in Input.touches){
 			if (touch.phase == TouchPhase.Began){
+				Debug.Log("Touch detected");
 				Vector3 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
+				Debug.Log("touchPos == " + touchPos);
 
 				Collider2D collider = Physics2D.OverlapPoint(touchPos);
 
 				if(collider != null){
+					Debug.Log("Touched " + collider.name);
 					//if you click on something...
 					if(selected == null){
+						Debug.Log("selecting " + collider.name);
 						//if we haven't yet selected a token, select this token and remember it
 						selected = collider.gameObject;
 						selectionIcon.transform.position = collider.transform.position;
 					} else {
 						//if we HAVE already selected a token, calculate the distance between this token (which we're currently clicking on)
 						//and that one (which we clicked on last time)
+						Debug.Log("trying to swap " + selected.name + " and " + collider.name);
 						Vector2 pos1 = gameManager.GetPositionOfTokenInGrid(selected);
 						Vector2 pos2 = gameManager.GetPositionOfTokenInGrid(collider.gameObject);
 
@@ -86,20 +96,5 @@ public class InputManagerScript : MonoBehaviour {
 				}
 			}
 		}
-	}
-
-	/// <summary>
-	/// This seems like a pretty dumb function. 
-	/// Maybe Matt just put it here to show some cool commenting tricks?
-	/// Maybe these comments aren't even right?
-	/// </summary>
-	/// 
-	/// <param name="x">A float x that will be divided</param>
-	/// <param name="y">A float x that will be divided</param>
-	/// 
-	/// <returns>The value of param x plus y</returns>
-	///
-	private int CommentFunc(int x, int y){
-		return x - y;
 	}
 }

@@ -1,24 +1,32 @@
-﻿using UnityEngine;
+﻿/*
+ * 
+ * This script moves tokens. It is not responsible for when they move, or what they do when they reach their destinations.
+ * 
+ */
+
+using UnityEngine;
 using System.Collections;
 
 public class MoveTokensScript : MonoBehaviour
 {
 
-    protected GameManagerScript gameManager; // A reference to the GameManagerScript component on this script's gameObject.
-    protected MatchManagerScript matchManager; // A reference to the MatchManagerScript component on this script's gameObject.
+    protected GameManagerScript gameManager;
+    protected MatchManagerScript matchManager;
 
-    public bool move = false; //Determines whether or not the selected tokens are moving.
+    public bool move = false;
 
-    public float lerpPercent; //Used to track how much the tokens have moved from their original positions, as a percentage between 0f and 1f.
-    public float lerpSpeed; //How quickly the lerp percentage is increased.
+    public float lerpPercent; //How much the tokens have moved from their original positions, as a percentage between 0f and 1f.
+    public float lerpSpeed;
 
-    bool userSwap; //Have the user tokens been swapped or not??
+	//special bool that controls whether a swap is reversable
+	//a swap is reversable when initiated by the player; if the swap does not create a match, the swap back is not reversable
+    bool userSwap;
 
-    protected GameObject exchangeToken1; //A reference to the GameObject token that the user clicked first.
-    GameObject exchangeToken2; //A reference to the GameObject token that the user clicked second.
-
-    Vector2 exchangeGridPos1; //The position of exchangeToken1 in the scene.
-    Vector2 exchangeGridPos2; //The position of exchangeToken2 in the scene.
+	//the following variables are for the two tokens the player chose for a swap
+    protected GameObject exchangeToken1;
+	GameObject exchangeToken2;
+    Vector2 exchangeGridPos1; 
+    Vector2 exchangeGridPos2;
 
     public virtual void Start()
     {
@@ -32,6 +40,7 @@ public class MoveTokensScript : MonoBehaviour
 
         if (move) //If the tokens are moving:
         {
+			Debug.Log("Moving tokens");
             lerpPercent += lerpSpeed; //...make lerpPercent = lerpPercent + lerpSpeed.
 
             if (lerpPercent >= 1) //If the lerpPercentage exceeds 1f:
