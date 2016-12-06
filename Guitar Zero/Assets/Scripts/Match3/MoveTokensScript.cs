@@ -15,8 +15,6 @@ public class MoveTokensScript : MonoBehaviour
 
     public bool move = false;
 
-    public float lerpPercent; //How much the tokens have moved from their original positions, as a percentage between 0f and 1f.
-    public float lerpSpeed;
 
 	//special bool that controls whether a swap is reversable
 	//a swap is reversable when initiated by the player; if the swap does not create a match, the swap back is not reversable
@@ -28,24 +26,25 @@ public class MoveTokensScript : MonoBehaviour
     Vector2 exchangeGridPos1; 
     Vector2 exchangeGridPos2;
 
-    public virtual void Start()
-    {
-        gameManager = GetComponent<GameManagerScript>(); //Set the gameManager variable to the GameManagerScript component on the GameObject.
-        matchManager = GetComponent<MatchManagerScript>(); //Set the matchManager variable to the MatchManagerScript component on the GameObject.
-        lerpPercent = 0; //Reset the lerp percentage to 0 so that tokens don't move until the right time.
+	//these variables control the timing of movement
+	private float timeBetweenBeats = 0.0f;
+	private float timer = 0.0f;
+
+    public virtual void Start(){
+        gameManager = GetComponent<GameManagerScript>();
+        matchManager = GetComponent<MatchManagerScript>();
+		timeBetweenBeats = gameManager.TimeBetweenBeats;
     }
 
     public virtual void Update()
     {
 
-        if (move) //If the tokens are moving:
-        {
-			Debug.Log("Moving tokens");
-            lerpPercent += lerpSpeed; //...make lerpPercent = lerpPercent + lerpSpeed.
+		if (move){ //If the tokens are moving:
+			timer += Time.deltaTime;
 
-            if (lerpPercent >= 1) //If the lerpPercentage exceeds 1f:
-            {
-                lerpPercent = 1; //...force it back to 1f.
+			//keep timer at timeBetweenBeats so that the end of the movement is recognized in other functions below
+			if (timer >= timeBetweenBeats){
+				timer = timeBetweenBeats;
             }
 
             if (exchangeToken1 != null) //If exchangeToken1 is a valid GameObject:
@@ -56,12 +55,11 @@ public class MoveTokensScript : MonoBehaviour
     }
 
     /// <summary>
-    /// This function resets the lerp percentage before setting up the tokens through SetupTokenExchange.
+    /// Reset variables to the state for the beginning of a move.
     /// </summary>
-    public void SetupTokenMove()
-    {
-        move = true; //The tokens are now moving.
-        lerpPercent = 0; //Reset the lerp percentage to 0 so that tokens don't move until the right time.
+    public void SetupTokenMove(){
+        move = true;
+		timer = 0.0f;
     }
 
     /// <summary>
@@ -116,13 +114,13 @@ public class MoveTokensScript : MonoBehaviour
             and by setting exchangeToken2's position to movePos2.
         */
 
-        Vector3 movePos1 = SmoothLerp(startPos, endPos, lerpPercent);
-        Vector3 movePos2 = SmoothLerp(endPos, startPos, lerpPercent);
+		Vector3 movePos1 = SmoothLerp(startPos, endPos, timer/timeBetweenBeats);
+		Vector3 movePos2 = SmoothLerp(endPos, startPos, timer/timeBetweenBeats);
 
         exchangeToken1.transform.position = movePos1;
         exchangeToken2.transform.position = movePos2;
 
-        if (lerpPercent == 1) //When the movement animation is complete:
+		if (timer == timeBetweenBeats) //When the movement animation is complete:
         {
             /*
             The next two lines simply swap exchangeToken1 and exchangeToken2's positions in the grid array of the gameManager script.
@@ -179,11 +177,11 @@ public class MoveTokensScript : MonoBehaviour
         Vector3 startPos = gameManager.GetWorldPositionFromGridPosition(startGridX, startGridY);
         Vector3 endPos = gameManager.GetWorldPositionFromGridPosition(endGridX, endGridY);
 
-        Vector3 pos = Vector3.Lerp(startPos, endPos, lerpPercent);
+		Vector3 pos = Vector3.Lerp(startPos, endPos, timer/timeBetweenBeats);
 
         token.transform.position = pos;
 
-        if (lerpPercent == 1) //If the lerp percentage is complete
+		if (timer == timeBetweenBeats) //If the lerp percentage is complete
         {
             /*
             Swap the valid token with the empty space.
@@ -223,7 +221,7 @@ public class MoveTokensScript : MonoBehaviour
             }
         }
 
-        if (lerpPercent == 1) //If the lerp percent is 
+		if (timer == timeBetweenBeats) //If the lerp percent is 
         {
             move = false;
         }

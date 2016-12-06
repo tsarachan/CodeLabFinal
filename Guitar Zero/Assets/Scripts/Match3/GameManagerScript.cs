@@ -36,9 +36,16 @@ public class GameManagerScript : MonoBehaviour {
 	//the sprite used for the strings in the background
 	protected GameObject stringGraphic;
 
+	//used to keep the game on the beat
+	public int bpm = 125; //inspired by Guns 'n' Roses' Sweet Child o' Mine!
+	private float timeBetweenBeats = 0.0f; //to be set in seconds
+	public float TimeBetweenBeats{ //getter so that MoveTokensScript can get the values it needs to move on the beat
+		get { return timeBetweenBeats; }
+	}
+	private float timer = 0.0f;
 
 
-	public virtual void Start () {
+	public virtual void Awake () {
 		tokenTypes = (UnityEngine.Object[])Resources.LoadAll("Tokens/");
 		noteSprites = Resources.LoadAll<Sprite>("Sprites/Note sprites");
 		gridArray = new GameObject[gridWidth, gridHeight];
@@ -47,23 +54,25 @@ public class GameManagerScript : MonoBehaviour {
 		repopulateManager = GetComponent<RepopulateScript>();
 		moveTokenManager = GetComponent<MoveTokensScript>();
 		stringGraphic = Resources.Load("String") as GameObject;
+		timeBetweenBeats = 60.0f/bpm;
 		MakeGrid();
 		ChangeGridDuplicates();
 	}
 
 	public virtual void Update(){
-		//every frame, check whether the grid is full of tokens.
+		timer += Time.deltaTime;
 
-		if(!GridHasEmpty()){
-			//if the grid is full of tokens and has matches, remove them.
-			if(matchManager.GridHasMatch()){
+		//each beat, check for matches
+		if (!GridHasEmpty() && timer >= timeBetweenBeats){
+			if (matchManager.GridHasMatch()){
 				matchManager.RemoveMatches();
-			} else {
-				//if the grid is full and there are no matches, wait for the player to make a move (and look for it in InputManager)
-				inputManager.SelectToken();
 			}
+		} else if (!GridHasEmpty()){
+			inputManager.SelectToken(); //if not on the beat, allow the player to make selections
+		} 
 
-		} else {
+		//if there are empty spaces, tokens need to move
+		if (GridHasEmpty()){
 			if(!moveTokenManager.move){
 				//if the icons are currently moving, set them up to move and leave it be
 				moveTokenManager.SetupTokenMove();
@@ -74,6 +83,34 @@ public class GameManagerScript : MonoBehaviour {
 				repopulateManager.AddNewTokensToRepopulateGrid();
 			}
 		}
+			
+		//keep on the beat
+		if (timer >= timeBetweenBeats){
+			timer = 0.0f;
+		}
+
+		//every frame, check whether the grid is full of tokens.
+
+//		if(!GridHasEmpty()){
+//			//if the grid is full of tokens and has matches, remove them.
+//			if(matchManager.GridHasMatch()){
+//				matchManager.RemoveMatches();
+//			} else {
+//				//if the grid is full and there are no matches, wait for the player to make a move (and look for it in InputManager)
+//				inputManager.SelectToken();
+//			}
+//
+//		} else {
+//			if(!moveTokenManager.move){
+//				//if the icons are currently moving, set them up to move and leave it be
+//				moveTokenManager.SetupTokenMove();
+//			}
+//			if(!moveTokenManager.MoveTokensToFillEmptySpaces()){
+//				//if the MoveTokenManager hasn't added any tokens to the grid
+//				//tell Repopulate Script to add new tokens
+//				repopulateManager.AddNewTokensToRepopulateGrid();
+//			}
+//		}
 	}
 
 	/// <summary>
