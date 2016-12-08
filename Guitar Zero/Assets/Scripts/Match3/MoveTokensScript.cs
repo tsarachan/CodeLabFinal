@@ -38,18 +38,16 @@ public class MoveTokensScript : MonoBehaviour
 
     public virtual void Update()
     {
-
-		if (move){ //If the tokens are moving:
+		if (move){
 			timer += Time.deltaTime;
 
-			//keep timer at timeBetweenBeats so that the end of the movement is recognized in other functions below
+			//keep finished timer at timeBetweenBeats so that the end of the movement is recognized in other functions below
 			if (timer >= timeBetweenBeats){
 				timer = timeBetweenBeats;
             }
 
-            if (exchangeToken1 != null) //If exchangeToken1 is a valid GameObject:
-            {
-                ExchangeTokens(); //...run the ExchangeTokens function.
+            if (exchangeToken1 != null){
+                ExchangeTokens();
             }
         }
     }
