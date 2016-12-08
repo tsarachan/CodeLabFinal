@@ -34,11 +34,39 @@ public class NumberManager : MonoBehaviour {
 	private const string HEALTH_TEXT = "Health";
 
 
+	//how score changes as player makes matches--used by ScorePoints()
+	public int scoreIncrease = 2;
 
 	private void Start () {
 		currentScoreDisplay = transform.root.Find(UI_CANVAS).Find(CURRENT_SCORE_TEXT).GetComponent<Text>();	
 		overallScoreDisplay = transform.root.Find(UI_CANVAS).Find(OVERALL_SCORE_TEXT).GetComponent<Text>();
 		healthDisplay = transform.root.Find(UI_CANVAS).Find(HEALTH_TEXT).GetComponent<Text>();
+		ChangeDisplay();
+	}
+
+
+	/// <summary>
+	/// Called when the player makes a match to increase the player's score.
+	/// </summary>
+	/// <returns>The player's new score.</returns>
+	public int ScorePoints(){
+		currentScore *= scoreIncrease;
+		ChangeDisplay();
+
+		return currentScore; //return value not currently used; future-proofing
+	}
+
+
+	/// <summary>
+	/// Called when the player fails to make a match within the allotted time to lose health.
+	/// </summary>
+	/// <returns>The player's new health.</returns>
+	public int LosePoints(){
+		health -= currentScore;
+		currentScore = 0;
+		ChangeDisplay();
+
+		return health; //return value not currently used; future-proofing
 	}
 	
 
@@ -49,6 +77,7 @@ public class NumberManager : MonoBehaviour {
 		overallScore += currentScore;
 		currentScore = 0;
 		ChangeDisplay();
+		Debug.Log("Button pressed");
 	}
 
 
