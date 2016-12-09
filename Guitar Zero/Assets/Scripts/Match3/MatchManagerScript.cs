@@ -3,8 +3,7 @@ using System.Collections;
 
 public class MatchManagerScript : MonoBehaviour {
 
-	protected GameManagerScript gameManager;    //"protected" means this field is public to child scripts
-	//but not to unrelated scripts
+	protected GameManagerScript gameManager;
 
 	protected GameObject colorBurst;
 	const int CHORD_SIZE = 3;

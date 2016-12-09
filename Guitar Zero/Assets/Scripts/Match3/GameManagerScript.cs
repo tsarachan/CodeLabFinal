@@ -23,6 +23,7 @@ public class GameManagerScript : MonoBehaviour {
 	protected InputManagerScript inputManager;
 	protected RepopulateScript repopulateManager;
 	protected MoveTokensScript moveTokenManager;
+	protected NumberManager numberManager;
 
 	//parent object for all tokens
 	public GameObject grid;
@@ -53,6 +54,7 @@ public class GameManagerScript : MonoBehaviour {
 		inputManager = GetComponent<InputManagerScript>();
 		repopulateManager = GetComponent<RepopulateScript>();
 		moveTokenManager = GetComponent<MoveTokensScript>();
+		numberManager = GetComponent<NumberManager>();
 		stringGraphic = Resources.Load("String") as GameObject;
 		timeBetweenBeats = 60.0f/bpm;
 		MakeGrid();
@@ -66,6 +68,7 @@ public class GameManagerScript : MonoBehaviour {
 		if (!GridHasEmpty() && timer >= timeBetweenBeats){
 			if (matchManager.GridHasMatch()){
 				matchManager.RemoveMatches();
+				numberManager.ScorePoints();
 			}
 		} else if (!GridHasEmpty()){
 			inputManager.SelectToken(); //if not on the beat, allow the player to make selections

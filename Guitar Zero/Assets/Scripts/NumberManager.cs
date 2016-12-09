@@ -50,7 +50,12 @@ public class NumberManager : MonoBehaviour {
 	/// </summary>
 	/// <returns>The player's new score.</returns>
 	public int ScorePoints(){
-		currentScore *= scoreIncrease;
+		if (currentScore == 0){
+			currentScore = 1;
+		} else {
+			currentScore *= scoreIncrease;
+		}
+
 		ChangeDisplay();
 
 		return currentScore; //return value not currently used; future-proofing

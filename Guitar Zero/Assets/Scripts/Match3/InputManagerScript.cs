@@ -64,30 +64,23 @@ public class InputManagerScript : MonoBehaviour {
 		//handle touch input
 		foreach (Touch touch in Input.touches){
 			if (touch.phase == TouchPhase.Began){
-				Debug.Log("Touch detected");
 				Vector3 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
-				Debug.Log("touchPos == " + touchPos);
-
 				Collider2D collider = Physics2D.OverlapPoint(touchPos);
 
 				if(collider != null){
-					Debug.Log("Touched " + collider.name);
 					//if you click on something...
 					if(selected == null){
-						Debug.Log("selecting " + collider.name);
 						//if we haven't yet selected a token, select this token and remember it
 						selected = collider.gameObject;
 						selectionIcon.transform.position = collider.transform.position;
 					} else {
 						//if we HAVE already selected a token, calculate the distance between this token (which we're currently clicking on)
 						//and that one (which we clicked on last time)
-						Debug.Log("trying to swap " + selected.name + " and " + collider.name);
 						Vector2 pos1 = gameManager.GetPositionOfTokenInGrid(selected);
 						Vector2 pos2 = gameManager.GetPositionOfTokenInGrid(collider.gameObject);
 
 						//if they're next to each other, swap them
 						if(Mathf.Abs(pos1.x - pos2.x) + Mathf.Abs(pos1.y - pos2.y) == 1){
-							Debug.Log("trying to swap");
 							moveManager.SetupTokenExchange(selected, pos1, collider.gameObject, pos2, true);
 						}
 						//then deselect our current token (because we're about to destroy or forget it)
@@ -97,9 +90,5 @@ public class InputManagerScript : MonoBehaviour {
 				}
 			}
 		}
-	}
-
-	public virtual void PressButtons(){
-
 	}
 }
