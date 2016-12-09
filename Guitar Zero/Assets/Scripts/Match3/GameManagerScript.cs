@@ -72,7 +72,6 @@ public class GameManagerScript : MonoBehaviour {
 			}
 		} else if (!GridHasEmpty()){
 			inputManager.SelectToken(); //if not on the beat, allow the player to make selections
-			inputManager.PressButtons(); //if not on the beat, allow the player to interact with the UI
 		} 
 
 		//if there are empty spaces, tokens need to move

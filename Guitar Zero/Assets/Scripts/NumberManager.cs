@@ -21,27 +21,69 @@ public class NumberManager : MonoBehaviour {
 	private int currentScore = 0;
 	private int overallScore = 0;
 	public int health = 10000;
+	private float crowdApproval = 1.0f; //scales from 1.0 to 0.0
+	public int availableRocking = 100; //how many score commits does the player get to reach the high score?
+	private int remainingRocking;
 
-	//text to display numbers to player in UI
+
+	//UI elements that display the numbers to the player
 	private Text currentScoreDisplay;
 	private Text overallScoreDisplay;
 	private Text healthDisplay;
+	private Image crowdApprovalDisplay;
+	private Image rockButtonImage;
 
 	//used to locate objects in hierarchy during initialization
 	private const string UI_CANVAS = "Canvas";
 	private const string CURRENT_SCORE_TEXT = "Score this run";
 	private const string OVERALL_SCORE_TEXT = "Locked in points";
 	private const string HEALTH_TEXT = "Health";
+	private const string CROWD_IMAGE = "Crowd";
+	private const string ROCK_BUTTON = "Rock button";
 
 
 	//how score changes as player makes matches--used by ScorePoints()
 	public int scoreIncrease = 2;
 
+	//the health the player loses if they're unable to make any matches before time runs out
+	public int defaultHealthLoss = 1;
+
+	//used to track the crowd's declining patience
+	public float crowdPatience = 3.0f; //the player has this many seconds to make a match
+	private float timer;
+	private const float MIN_FILL = 0.0f;
+	private const float MAX_FILL = 1.0f;
+
+
 	private void Start () {
+		remainingRocking = availableRocking;
 		currentScoreDisplay = transform.root.Find(UI_CANVAS).Find(CURRENT_SCORE_TEXT).GetComponent<Text>();	
 		overallScoreDisplay = transform.root.Find(UI_CANVAS).Find(OVERALL_SCORE_TEXT).GetComponent<Text>();
 		healthDisplay = transform.root.Find(UI_CANVAS).Find(HEALTH_TEXT).GetComponent<Text>();
+		crowdApprovalDisplay = transform.root.Find(UI_CANVAS).Find(CROWD_IMAGE).GetComponent<Image>();
+		rockButtonImage = transform.root.Find(UI_CANVAS).Find(ROCK_BUTTON).GetComponent<Image>();
 		ChangeDisplay();
+	}
+
+
+	/// <summary>
+	/// Tracks the crowd's approval
+	/// </summary>
+	private void Update(){
+		crowdApprovalDisplay.fillAmount = CrowdLosesPatience();
+	}
+
+
+	private float CrowdLosesPatience(){
+		timer += Time.deltaTime;
+
+		if (timer <= crowdPatience){
+			return Mathf.Lerp(MAX_FILL, MIN_FILL, timer/crowdPatience);
+		} else {
+			timer = 0.0f;
+			LosePoints();
+			return MAX_FILL;
+		}
 	}
 
 
@@ -67,7 +109,12 @@ public class NumberManager : MonoBehaviour {
 	/// </summary>
 	/// <returns>The player's new health.</returns>
 	public int LosePoints(){
-		health -= currentScore;
+		if (currentScore > 0){
+			health -= currentScore;
+		} else {
+			health -= defaultHealthLoss;
+		}
+
 		currentScore = 0;
 		ChangeDisplay();
 
@@ -79,10 +126,23 @@ public class NumberManager : MonoBehaviour {
 	/// The rock button calls this function to lock in the player's score.
 	/// </summary>
 	public void RockOut(){
-		overallScore += currentScore;
-		currentScore = 0;
-		ChangeDisplay();
-		Debug.Log("Button pressed");
+		if (currentScore > 0){ //the player can't rock out just to reset the clock; they have to have progressed.
+			overallScore += currentScore;
+			currentScore = 0;
+			remainingRocking--; //each time the player rocks out, it's one fewer chance to do so
+			ChangeDisplay();
+			crowdApprovalDisplay.fillAmount = ResetCrowdApproval();
+		}
+	}
+
+
+	/// <summary>
+	/// Used to reset the crowd after rocking out and locking in the current score.
+	/// </summary>
+	/// <returns>1.0, to max out the crowd's approval.</returns>
+	public float ResetCrowdApproval(){
+		timer = 0.0f;
+		return MAX_FILL;
 	}
 
 
@@ -93,5 +153,6 @@ public class NumberManager : MonoBehaviour {
 		currentScoreDisplay.text = currentScore.ToString();
 		overallScoreDisplay.text = overallScore.ToString();
 		healthDisplay.text = health.ToString();
+		rockButtonImage.fillAmount = (float)remainingRocking/availableRocking;
 	}
 }
