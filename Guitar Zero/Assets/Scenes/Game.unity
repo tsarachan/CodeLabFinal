@@ -566,9 +566,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 908affe0d18e243e3ad631712d48174a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10000
+  health: 10
   scoreIncrease: 2
-  crowdPatience: 20
+  defaultHealthLoss: 1
+  crowdPatience: 18
 --- !u!1 &822924081
 GameObject:
   m_ObjectHideFlags: 0
@@ -885,8 +886,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 0
+  m_audioClip: {fileID: 8300000, guid: 7d2a10e2bccba4c57b5cb0b3491a3575, type: 3}
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

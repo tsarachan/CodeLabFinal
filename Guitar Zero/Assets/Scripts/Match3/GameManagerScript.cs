@@ -69,6 +69,8 @@ public class GameManagerScript : MonoBehaviour {
 			if (matchManager.GridHasMatch()){
 				matchManager.RemoveMatches();
 				numberManager.ScorePoints();
+
+				//check to see if the game is over
 			}
 		} else if (!GridHasEmpty()){
 			inputManager.SelectToken(); //if not on the beat, allow the player to make selections
@@ -268,5 +270,10 @@ public class GameManagerScript : MonoBehaviour {
 		}
 
 		return tokens[UnityEngine.Random.Range(0, tokens.Count)];
+	}
+
+
+	protected void GameOver(){
+
 	}
 }

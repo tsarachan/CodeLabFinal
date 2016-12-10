@@ -9,6 +9,8 @@
  * 
  * If the player does not make a match within the appointed time, the player's current score zeroes and the player loses that much health.
  * 
+ * The player's goal is to get the highest overall score possible before running out of ability to rock!
+ * 
  */
 
 using UnityEngine;
@@ -22,8 +24,6 @@ public class NumberManager : MonoBehaviour {
 	private int overallScore = 0;
 	public int health = 10000;
 	private float crowdApproval = 1.0f; //scales from 1.0 to 0.0
-	public int availableRocking = 100; //how many score commits does the player get to reach the high score?
-	private int remainingRocking;
 
 
 	//UI elements that display the numbers to the player
@@ -31,7 +31,6 @@ public class NumberManager : MonoBehaviour {
 	private Text overallScoreDisplay;
 	private Text healthDisplay;
 	private Image crowdApprovalDisplay;
-	private Image rockButtonImage;
 
 	//used to locate objects in hierarchy during initialization
 	private const string UI_CANVAS = "Canvas";
@@ -56,12 +55,10 @@ public class NumberManager : MonoBehaviour {
 
 
 	private void Start () {
-		remainingRocking = availableRocking;
 		currentScoreDisplay = transform.root.Find(UI_CANVAS).Find(CURRENT_SCORE_TEXT).GetComponent<Text>();	
 		overallScoreDisplay = transform.root.Find(UI_CANVAS).Find(OVERALL_SCORE_TEXT).GetComponent<Text>();
 		healthDisplay = transform.root.Find(UI_CANVAS).Find(HEALTH_TEXT).GetComponent<Text>();
 		crowdApprovalDisplay = transform.root.Find(UI_CANVAS).Find(CROWD_IMAGE).GetComponent<Image>();
-		rockButtonImage = transform.root.Find(UI_CANVAS).Find(ROCK_BUTTON).GetComponent<Image>();
 		ChangeDisplay();
 	}
 
@@ -129,7 +126,6 @@ public class NumberManager : MonoBehaviour {
 		if (currentScore > 0){ //the player can't rock out just to reset the clock; they have to have progressed.
 			overallScore += currentScore;
 			currentScore = 0;
-			remainingRocking--; //each time the player rocks out, it's one fewer chance to do so
 			ChangeDisplay();
 			crowdApprovalDisplay.fillAmount = ResetCrowdApproval();
 		}
@@ -153,6 +149,5 @@ public class NumberManager : MonoBehaviour {
 		currentScoreDisplay.text = currentScore.ToString();
 		overallScoreDisplay.text = overallScore.ToString();
 		healthDisplay.text = health.ToString();
-		rockButtonImage.fillAmount = (float)remainingRocking/availableRocking;
 	}
 }
