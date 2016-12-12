@@ -46,6 +46,12 @@ public class GameManagerScript : MonoBehaviour {
 	private float timer = 0.0f;
 
 
+	//the game ends when the song is over. These variables handle the end of the game.
+	private AudioSource music;
+	private const string SPEAKER_OBJ = "Speaker";
+	private const string GAME_OVER_SCENE = "Game over scene";
+	private bool gameOver = false;
+
 	public virtual void Awake () {
 		tokenTypes = (UnityEngine.Object[])Resources.LoadAll("Tokens/");
 		noteSprites = Resources.LoadAll<Sprite>("Sprites/Note sprites");
@@ -57,12 +63,19 @@ public class GameManagerScript : MonoBehaviour {
 		numberManager = GetComponent<NumberManager>();
 		stringGraphic = Resources.Load("String") as GameObject;
 		timeBetweenBeats = 60.0f/bpm;
+		music = GameObject.Find(SPEAKER_OBJ).GetComponent<AudioSource>();
 		MakeGrid();
 		ChangeGridDuplicates();
 	}
 
 	public virtual void Update(){
 		timer += Time.deltaTime;
+
+		//check to see if the game is over
+		if (!music.isPlaying && !gameOver){
+			gameOver = GameOver();
+			return;
+		}
 
 		//each beat, check for matches
 		if (!GridHasEmpty() && timer >= timeBetweenBeats){
@@ -273,7 +286,9 @@ public class GameManagerScript : MonoBehaviour {
 	}
 
 
-	protected void GameOver(){
+	protected bool GameOver(){
+		SceneManager.LoadScene(GAME_OVER_SCENE);
 
+		return true;
 	}
 }

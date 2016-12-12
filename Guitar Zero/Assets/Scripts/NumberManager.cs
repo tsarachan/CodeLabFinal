@@ -23,7 +23,6 @@ public class NumberManager : MonoBehaviour {
 	private int currentScore = 0;
 	private int overallScore = 0;
 	public int health = 10000;
-	private float crowdApproval = 1.0f; //scales from 1.0 to 0.0
 
 
 	//UI elements that display the numbers to the player
