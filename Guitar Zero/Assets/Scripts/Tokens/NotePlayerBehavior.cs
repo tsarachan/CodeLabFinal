@@ -1,4 +1,13 @@
-﻿using UnityEngine;
+﻿/*
+ * 
+ * This script controls the objects that actually play chords.
+ * 
+ * Having a separate object that plays the sound enables the tokens to be destroyed, avoiding the need to change
+ * architecture elsewhere.
+ * 
+ */
+
+using UnityEngine;
 using System.Collections;
 
 public class NotePlayerBehavior : MonoBehaviour {
@@ -17,6 +26,8 @@ public class NotePlayerBehavior : MonoBehaviour {
 	/// <summary>
 	/// The if-statement here detects when the chord this object is playing is over, and then
 	/// notifies the background music to return to normal volume.
+	/// 
+	/// It then destroys this object.
 	/// </summary>
 	protected void Update(){
 		if (audioSource.isPlaying == false){
