@@ -46,11 +46,25 @@ public class GameManagerScript : MonoBehaviour {
 	private float timer = 0.0f;
 
 
-	//the game ends when the song is over. These variables handle the end of the game.
+	//the game ends when the song is over, or when the player reaches 0 health. These variables handle the end of the game.
 	private AudioSource music;
 	private const string SPEAKER_OBJ = "Speaker";
-	private const string GAME_OVER_SCENE = "Game over scene";
+	private const string SUCCESS_SCENE = "Success scene";
+	private const string SUCCESS_MARKER = "success";
+	private const string FAIL_SCENE = "Failure scene";
+	private const string FAIL_MARKER = "fail";
+	private float failTimer = 0.0f;
+	public float failGameEndDelay = 1.0f;
+	private Text healthText;
+	private const string UI_CANVAS = "Canvas";
+	private const string HEALTH_TEXT = "Health";
+	private Color failColor = Color.red;
 	private bool gameOver = false;
+	private bool playerLost = false;
+	public bool PlayerLost{
+		get { return playerLost; }
+		set { playerLost = value; }
+	}
 
 	public virtual void Awake () {
 		tokenTypes = (UnityEngine.Object[])Resources.LoadAll("Tokens/");
@@ -64,47 +78,57 @@ public class GameManagerScript : MonoBehaviour {
 		stringGraphic = Resources.Load("String") as GameObject;
 		timeBetweenBeats = 60.0f/bpm;
 		music = GameObject.Find(SPEAKER_OBJ).GetComponent<AudioSource>();
+		healthText = transform.root.Find(UI_CANVAS).Find(HEALTH_TEXT).GetComponent<Text>();
 		MakeGrid();
 		ChangeGridDuplicates();
 	}
 
 	public virtual void Update(){
-		timer += Time.deltaTime;
+		if (!PlayerLost){
+			timer += Time.deltaTime;
 
-		//check to see if the game is over
-		if (!music.isPlaying && !gameOver){
-			gameOver = GameOver();
-			return;
-		}
-
-		//each beat, check for matches
-		if (!GridHasEmpty() && timer >= timeBetweenBeats){
-			if (matchManager.GridHasMatch()){
-				matchManager.RemoveMatches();
-				numberManager.ScorePoints();
-
-				//check to see if the game is over
+			//check to see if the game is over
+			if (!music.isPlaying && !gameOver){
+				gameOver = GameOver(SUCCESS_MARKER);
+				return;
 			}
-		} else if (!GridHasEmpty()){
-			inputManager.SelectToken(); //if not on the beat, allow the player to make selections
-		} 
 
-		//if there are empty spaces, tokens need to move
-		if (GridHasEmpty()){
-			if(!moveTokenManager.move){
-				//if the icons are currently moving, set them up to move and leave it be
-				moveTokenManager.SetupTokenMove();
+			//each beat, check for matches
+			if (!GridHasEmpty() && timer >= timeBetweenBeats){
+				if (matchManager.GridHasMatch()){
+					matchManager.RemoveMatches();
+					numberManager.ScorePoints();
+
+					//check to see if the game is over
+				}
+			} else if (!GridHasEmpty()){
+				inputManager.SelectToken(); //if not on the beat, allow the player to make selections
+			} 
+
+			//if there are empty spaces, tokens need to move
+			if (GridHasEmpty()){
+				if(!moveTokenManager.move){
+					//if the icons are currently moving, set them up to move and leave it be
+					moveTokenManager.SetupTokenMove();
+				}
+				if(!moveTokenManager.MoveTokensToFillEmptySpaces()){
+					//if the MoveTokenManager hasn't added any tokens to the grid
+					//tell Repopulate Script to add new tokens
+					repopulateManager.AddNewTokensToRepopulateGrid();
+				}
 			}
-			if(!moveTokenManager.MoveTokensToFillEmptySpaces()){
-				//if the MoveTokenManager hasn't added any tokens to the grid
-				//tell Repopulate Script to add new tokens
-				repopulateManager.AddNewTokensToRepopulateGrid();
+				
+			//keep on the beat
+			if (timer >= timeBetweenBeats){
+				timer = 0.0f;
 			}
-		}
-			
-		//keep on the beat
-		if (timer >= timeBetweenBeats){
-			timer = 0.0f;
+		} else if (PlayerLost){
+			failTimer += Time.deltaTime;
+			healthText.color = failColor;
+
+			if (failTimer >= failGameEndDelay){
+				GameOver(FAIL_MARKER);
+			}
 		}
 
 		//every frame, check whether the grid is full of tokens.
@@ -286,8 +310,23 @@ public class GameManagerScript : MonoBehaviour {
 	}
 
 
-	protected bool GameOver(){
-		SceneManager.LoadScene(GAME_OVER_SCENE);
+	/// <summary>
+	/// Call this function to end the game. GameManagerScript calls this when the song is over;
+	/// NumberManager calls it if health falls below zero.
+	/// 
+	/// This function returns a value so that it definitely won't be called more than one time.
+	/// </summary>
+	/// <returns><c>true</c>, if the game is over, <c>false</c> otherwise.</returns>
+	/// <param name="whatHappened">"success" for reaching the end of the song, "fail" for running out of health.</param>
+	public bool GameOver(string whatHappened){
+		if (whatHappened == SUCCESS_MARKER){
+			SceneManager.LoadScene(SUCCESS_SCENE);
+		} else if (whatHappened == FAIL_MARKER){
+			SceneManager.LoadScene(FAIL_SCENE);
+		} else {
+			Debug.Log("Illegal instruction: " + whatHappened);
+		}
+
 
 		return true;
 	}

@@ -52,21 +52,35 @@ public class NumberManager : MonoBehaviour {
 	private const float MIN_FILL = 0.0f;
 	private const float MAX_FILL = 1.0f;
 
+	//used to end the game when health falls below zero.
+	private float failTimer = 0.0f;
+	public float failGameEndDelay = 1.0f;
+	private Color failColor = Color.red;
+	private GameManagerScript managerScript;
+	private const string FAIL_MARKER = "fail"; //must be the same as FAIL_MARKER in GameManagerScript
+
 
 	private void Start () {
 		currentScoreDisplay = transform.root.Find(UI_CANVAS).Find(CURRENT_SCORE_TEXT).GetComponent<Text>();	
 		overallScoreDisplay = transform.root.Find(UI_CANVAS).Find(OVERALL_SCORE_TEXT).GetComponent<Text>();
 		healthDisplay = transform.root.Find(UI_CANVAS).Find(HEALTH_TEXT).GetComponent<Text>();
 		crowdApprovalDisplay = transform.root.Find(UI_CANVAS).Find(CROWD_IMAGE).GetComponent<Image>();
+		managerScript = GetComponent<GameManagerScript>();
 		ChangeDisplay();
 	}
 
 
 	/// <summary>
-	/// Tracks the crowd's approval
+	/// Tracks the game state.
 	/// </summary>
 	private void Update(){
+		//update the crowd's current patience with the player
 		crowdApprovalDisplay.fillAmount = CrowdLosesPatience();
+
+		//if the player has run out of health, inform the game manager
+		if (health <= 0){
+			managerScript.PlayerLost = true;
+		}
 	}
 
 

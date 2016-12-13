@@ -324,7 +324,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 3
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 1
@@ -691,6 +691,7 @@ MonoBehaviour:
   yOffset: 0
   grid: {fileID: 0}
   bpm: 125
+  failGameEndDelay: 1
 --- !u!114 &771767612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -706,6 +707,7 @@ MonoBehaviour:
   scoreIncrease: 2
   defaultHealthLoss: 1
   crowdPatience: 18
+  failGameEndDelay: 1
 --- !u!1 &822924081
 GameObject:
   m_ObjectHideFlags: 0
@@ -941,17 +943,17 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1645153150}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_Children: []
   m_Father: {fileID: 14811580}
   m_RootOrder: 4
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 32, y: -175}
-  m_SizeDelta: {x: 25, y: 843}
+  m_AnchoredPosition: {x: 404, y: 282}
+  m_SizeDelta: {x: 25, y: 762}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1645153152
 MonoBehaviour:
