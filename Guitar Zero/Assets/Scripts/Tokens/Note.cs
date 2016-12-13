@@ -51,5 +51,5 @@ public abstract class Note : MonoBehaviour {
 	/// <summary>
 	/// Override to define what happens when this token is removed.
 	/// </summary>
-	protected abstract void DestroyFeedback();
+	public abstract void DestroyFeedback();
 }

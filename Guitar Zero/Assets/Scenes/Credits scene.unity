@@ -816,7 +816,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 11, y: 0}
-  m_SizeDelta: {x: -11, y: 1984}
+  m_SizeDelta: {x: -11, y: 2912}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1869575429
 MonoBehaviour:
@@ -850,7 +850,19 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Game design by Tom Sarachan\n@lawofgamedesign\nlawofgamedesign.com\n\n-
+  m_Text: "Game design: Tom Sarachan\n@lawofgamedesign\nlawofgamedesign.com\n\nMusic:\n\nAina
+    Haina, \"Foolin' Around Mix (Instrumental).\" Licensed under the Creative Commons
+    Attribution-NonCommercial 3.0 Unported License. No endorsement is implied by the
+    use of this work. Available at http://freemusicarchive.org/music/Aina_Haina/Rock_Instrumentals/Foolin_Around_Mix_Instrumental.\n\nSound
+    effects:\n\ndanglada, \u201CA Major.wav.\u201D Licensed under the Creative Commons
+    Sampling 1.0 Plus License. No endorsement is implied by the use of this work.
+    Available at https://www.freesound.org/people/danglada/sounds/17567/.\n\ndanglada,
+    \u201CC Major.wav.\u201D Licensed under the Creative Commons Sampling 1.0 Plus
+    License. No endorsement is implied by the use of this work. Available at https://www.freesound.org/people/danglada/sounds/17569/.\n\ndanglada,
+    \u201CD Major.wav.\u201D Licensed under the Creative Commons Sampling 1.0 Plus
+    License. No endorsement is implied by the use of this work. Available at https://www.freesound.org/people/danglada/sounds/17570/.\n\ndanglada,
+    \u201CG Major.wav.\u201D Licensed under the Creative Commons Sampling 1.0 Plus
+    License. No endorsement is implied by the use of this work. Available at https://www.freesound.org/people/danglada/sounds/17573/.\n\n-
     - -\nNew Rocker font licensed under the SIL Open Font License v. 1.10.\n\nSIL
     Open Font License v1.10\n\nThis license can also be found at this permalink: https://www.fontsquirrel.com/license/new-rocker\n\nCopyright
     (c) 2011, Pablo Impallari (www.impallari.com|impallari@gmail.com),\nCopyright

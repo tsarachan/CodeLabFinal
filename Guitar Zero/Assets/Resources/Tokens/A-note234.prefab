@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3558bb070cbb548ccacbeadafd8db874, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicVolDuringChord: -20
+  musicVolDuringChord: -5
 --- !u!212 &212000013880141930
 SpriteRenderer:
   m_ObjectHideFlags: 1

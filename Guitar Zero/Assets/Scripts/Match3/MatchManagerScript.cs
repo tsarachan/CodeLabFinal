@@ -347,7 +347,7 @@ public class MatchManagerScript : MonoBehaviour {
 		}
 
 		foreach (GameObject token in tokens){
-			//Instantiate(colorBurst, token.transform.position, Quaternion.identity);
+			token.GetComponent<Note>().DestroyFeedback();
 		}
 	}
 }

@@ -17,7 +17,7 @@ public class AChordBehavior : Note {
 		base.Start();
 	}
 
-	protected override void DestroyFeedback(){
+	public override void DestroyFeedback(){
 		PlaySound();
 	}
 }

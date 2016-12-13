@@ -17,7 +17,7 @@ public class GChordBehavior : Note {
 		base.Start();
 	}
 
-	protected override void DestroyFeedback(){
+	public override void DestroyFeedback(){
 		PlaySound();
 	}
 }
