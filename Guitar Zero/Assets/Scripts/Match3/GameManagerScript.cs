@@ -61,7 +61,7 @@ public class GameManagerScript : MonoBehaviour {
 	private Color failColor = Color.red;
 	private bool gameOver = false;
 	private bool playerLost = false;
-	public bool PlayerLost{
+	public bool PlayerLost{ //set by NumberManager if health reaches zero
 		get { return playerLost; }
 		set { playerLost = value; }
 	}
