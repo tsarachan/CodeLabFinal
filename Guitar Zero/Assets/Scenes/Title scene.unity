@@ -157,7 +157,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Intro the band
+  m_Text: intro the band
 --- !u!222 &26538313
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -196,10 +196,10 @@ RectTransform:
   - {fileID: 1658486013}
   m_Father: {fileID: 787615602}
   m_RootOrder: 3
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 130, y: 361.7}
-  m_SizeDelta: {x: 167.8, y: 48.6}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -100, y: -46.299988}
+  m_SizeDelta: {x: 167.79999, y: 48.600006}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &37209195
 MonoBehaviour:
@@ -389,9 +389,9 @@ RectTransform:
   - {fileID: 1003718461}
   m_Father: {fileID: 787615602}
   m_RootOrder: 1
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000015258789, y: -354}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: -0.000015258789, y: 54}
   m_SizeDelta: {x: 269, y: 62}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &616268252
@@ -607,10 +607,10 @@ RectTransform:
   - {fileID: 26538311}
   m_Father: {fileID: 787615602}
   m_RootOrder: 2
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -130, y: 361.7}
-  m_SizeDelta: {x: 167.8, y: 48.6}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 100, y: -46.299988}
+  m_SizeDelta: {x: 167.8, y: 48.600006}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &815284246
 MonoBehaviour:
@@ -950,10 +950,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 787615602}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000015259, y: -1}
-  m_SizeDelta: {x: 459, y: 217}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -0.000015258789, y: -1}
+  m_SizeDelta: {x: -1, y: -599}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1631066638
 MonoBehaviour:
@@ -987,7 +987,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Guitar Zero
+  m_Text: guitar zero
 --- !u!222 &1631066639
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1061,7 +1061,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Backstage
+  m_Text: backstage
 --- !u!222 &1658486015
 CanvasRenderer:
   m_ObjectHideFlags: 0
