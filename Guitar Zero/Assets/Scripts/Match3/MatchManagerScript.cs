@@ -322,6 +322,13 @@ public class MatchManagerScript : MonoBehaviour {
 		}
 	}
 
+	/// <summary>
+	/// Causes each token to give feedback when it is part of a match.
+	/// 
+	/// Currently chordMultiplier does nothing; it has been left in for future use.
+	/// </summary>
+	/// <param name="tokens">The tokens involved in the match.</param>
+	/// <param name="chord">The chord the tokens represent.</param>
 	protected void ChordFeedback(GameObject[] tokens, char chord){
 		int chordMultiplier = 1;
 

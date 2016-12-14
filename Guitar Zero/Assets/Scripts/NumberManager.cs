@@ -53,9 +53,7 @@ public class NumberManager : MonoBehaviour {
 	private const float MAX_FILL = 1.0f;
 
 	//used to end the game when health falls below zero.
-	private float failTimer = 0.0f;
 	public float failGameEndDelay = 1.0f;
-	private Color failColor = Color.red;
 	private GameManagerScript managerScript;
 	private const string FAIL_MARKER = "fail"; //must be the same as FAIL_MARKER in GameManagerScript
 
